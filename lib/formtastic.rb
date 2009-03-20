@@ -270,11 +270,21 @@ module Formtastic #:nodoc:
     #
     # The value of the button text can be overridden:
     #
-    #  <%= form.commit_button "Go" %> => <input name="commit" type="submit" value="Go" />
-    def commit_button(value = save_or_create_commit_button_text, options = {})
-      template.content_tag(:li, template.submit_tag(value), :class => "commit")
+    #  <%= form.commit_button :label => "Go" %> => <input name="commit" type="submit" value="Go" />
+    #
+    # An optional cancel link can be put right beside the button
+    #
+    #  <%= form.commit_button :cancel => root_path %> will produce
+    #  <input name="commit" type"submit" value="Save [model name]"> or <a href="[root path]">Cancel</a>
+    #
+    def commit_button(*args) #(value = save_or_create_commit_button_text, options = {})
+      options = args.extract_options!
+      options[:label] ||= save_or_create_commit_button_text
+      content = template.submit_tag(options[:label])
+      content += " or <a href='#{options[:cancel]}'>Cancel</a>" if options[:cancel]
+      template.content_tag(:li, content, :class => "commit")
     end
-
+    
 
     # A thin wrapper around #fields_for to set :builder => Formtastic::SemanticFormBuilder
     # for nesting forms:
