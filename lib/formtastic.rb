@@ -277,7 +277,7 @@ module Formtastic #:nodoc:
     #  <%= form.commit_button :cancel => root_path %> will produce
     #  <input name="commit" type"submit" value="Save [model name]"> or <a href="[root path]">Cancel</a>
     #
-    def commit_button(*args) #(value = save_or_create_commit_button_text, options = {})
+    def commit_button(*args)
       options = args.extract_options!
       options[:label] ||= save_or_create_commit_button_text
       content = template.submit_tag(options[:label])
